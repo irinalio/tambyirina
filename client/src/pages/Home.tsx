@@ -16,7 +16,7 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent-foreground font-medium mb-6">
               <Star className="w-4 h-4 fill-accent-foreground" />
-              <span>Votre mariage, votre souvenir éternel.</span>
+              <span>Touché Artistique Mariage - Votre souvenir éternel.</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold font-display leading-[1.1] mb-6">
               Capturez Votre Amour en <br />

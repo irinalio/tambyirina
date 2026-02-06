@@ -6,7 +6,7 @@ import { z } from "zod";
 import { useCreateStandardOrder } from "@/hooks/use-orders";
 import { useToast } from "@/hooks/use-toast";
 import { 
-  Smile, Scissors, Shirt, Move, Check, Loader2, Sparkles 
+  Smile, Scissors, Shirt, Move, Check, Loader2, Sparkles, Star 
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -128,8 +128,8 @@ export default function Configurator() {
       {/* LEFT: Controls */}
       <div className="w-full lg:w-1/3 flex flex-col border-r bg-white/50 backdrop-blur-sm z-10 h-full overflow-hidden">
         <div className="p-6 border-b bg-white/80">
-          <h2 className="text-2xl font-bold font-display text-primary">Atelier Mariage</h2>
-          <p className="text-sm text-muted-foreground">Personnalisez votre moment magique</p>
+          <h2 className="text-2xl font-bold font-display text-primary">Touché Artistique</h2>
+          <p className="text-sm text-muted-foreground">Créez votre cake topper personnalisé</p>
         </div>
 
         <Tabs defaultValue="hair" className="flex-1 flex flex-col overflow-hidden">

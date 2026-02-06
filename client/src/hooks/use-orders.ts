@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { api, type CreateStandardOrderRequest, type CreateCustomOrderRequest } from "@shared/routes";
+import { api } from "@shared/routes";
+import { type CreateStandardOrderRequest, type CreateCustomOrderRequest } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export function useCreateStandardOrder() {
