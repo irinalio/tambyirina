@@ -8,6 +8,7 @@ import confetti from "canvas-confetti";
 
 import { useUploadPhoto, useCreateCustomOrder } from "@/hooks/use-orders";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,6 +24,7 @@ const customOrderSchema = z.object({
 });
 
 export default function CustomRequest() {
+  const { t, language } = useI18n();
   const [step, setStep] = useState(1);
   const [photos, setPhotos] = useState<string[]>([]);
   const { toast } = useToast();
@@ -76,8 +78,8 @@ export default function CustomRequest() {
           colors: ['#22c55e', '#3b82f6', '#f59e0b']
         });
         toast({
-          title: "Request Sent!",
-          description: "We've received your photos. Our artists will be in touch.",
+          title: language === 'fr' ? "Demande Envoyée !" : "Request Sent!",
+          description: language === 'fr' ? "Nous avons bien reçu vos photos." : "We've received your photos.",
         });
         setStep(3); // Success step
       }
@@ -88,7 +90,11 @@ export default function CustomRequest() {
     // Validate current step fields
     if (step === 1) {
       if (photos.length === 0) {
-        toast({ title: "Photo required", description: "Please upload at least one photo.", variant: "destructive" });
+        toast({ 
+          title: language === 'fr' ? "Photo requise" : "Photo required", 
+          description: language === 'fr' ? "Veuillez télécharger au moins une photo." : "Please upload at least one photo.", 
+          variant: "destructive" 
+        });
         return;
       }
       const isValid = await form.trigger("description");
@@ -102,17 +108,17 @@ export default function CustomRequest() {
         
         {/* Progress Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold font-display mb-2 text-primary">Création Sur Mesure</h1>
+          <h1 className="text-3xl font-bold font-display mb-2 text-primary">{t('custom.title')}</h1>
           <p className="text-muted-foreground mb-6">
-            Envoyez-nous les photos de vos tenues et de vos visages pour une réplique artistique parfaite.
+            {t('custom.desc')}
           </p>
           
           <div className="flex items-center gap-2 text-sm font-medium">
-            <div className={`px-3 py-1 rounded-full ${step >= 1 ? 'bg-secondary text-white' : 'bg-muted text-muted-foreground'}`}>1. Photos & Details</div>
+            <div className={`px-3 py-1 rounded-full ${step >= 1 ? 'bg-secondary text-white' : 'bg-muted text-muted-foreground'}`}>{t('custom.step1')}</div>
             <div className="w-8 h-px bg-border" />
-            <div className={`px-3 py-1 rounded-full ${step >= 2 ? 'bg-secondary text-white' : 'bg-muted text-muted-foreground'}`}>2. Contact Info</div>
+            <div className={`px-3 py-1 rounded-full ${step >= 2 ? 'bg-secondary text-white' : 'bg-muted text-muted-foreground'}`}>{t('custom.step2')}</div>
             <div className="w-8 h-px bg-border" />
-            <div className={`px-3 py-1 rounded-full ${step >= 3 ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'}`}>3. Done</div>
+            <div className={`px-3 py-1 rounded-full ${step >= 3 ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'}`}>{t('custom.step3')}</div>
           </div>
         </div>
 
@@ -123,11 +129,14 @@ export default function CustomRequest() {
               <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Check className="w-10 h-10" />
               </div>
-              <h2 className="text-2xl font-bold mb-2">All Set!</h2>
+              <h2 className="text-2xl font-bold mb-2">{language === 'fr' ? 'Tout est prêt !' : 'All Set!'}</h2>
               <p className="text-muted-foreground mb-6">
-                Your request has been submitted. Check your email for confirmation.
+                {language === 'fr' 
+                  ? "Votre demande a été soumise. Vérifiez vos emails pour la confirmation."
+                  : "Your request has been submitted. Check your email for confirmation."
+                }
               </p>
-              <Button variant="outline" onClick={() => window.location.href = '/'}>Back Home</Button>
+              <Button variant="outline" onClick={() => window.location.href = '/'}>{language === 'fr' ? 'Retour' : 'Back Home'}</Button>
             </div>
           ) : (
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -138,8 +147,13 @@ export default function CustomRequest() {
                   
                   {/* Photo Upload */}
                   <div className="space-y-4">
-                    <Label className="text-lg">Reference Photos</Label>
-                    <p className="text-sm text-muted-foreground">Upload clear photos from front, back, and sides.</p>
+                    <Label className="text-lg">{language === 'fr' ? 'Photos de Référence' : 'Reference Photos'}</Label>
+                    <p className="text-sm text-muted-foreground">
+                      {language === 'fr' 
+                        ? 'Téléchargez des photos claires de face, de dos et de profil.'
+                        : 'Upload clear photos from front, back, and sides.'
+                      }
+                    </p>
                     
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {photos.map((url, idx) => (
@@ -169,7 +183,7 @@ export default function CustomRequest() {
                           ) : (
                             <>
                               <Upload className="w-6 h-6 text-muted-foreground" />
-                              <span className="text-xs text-muted-foreground font-medium">Add Photo</span>
+                              <span className="text-xs text-muted-foreground font-medium">{language === 'fr' ? 'Ajouter' : 'Add Photo'}</span>
                             </>
                           )}
                         </label>
@@ -179,10 +193,13 @@ export default function CustomRequest() {
 
                   {/* Description */}
                   <div className="space-y-2">
-                    <Label htmlFor="desc" className="text-lg">Special Instructions</Label>
+                    <Label htmlFor="desc" className="text-lg">{language === 'fr' ? 'Instructions Spéciales' : 'Special Instructions'}</Label>
                     <Textarea 
                       id="desc" 
-                      placeholder="Describe specific details like tattoos, jewelry, or specific pose requirements..." 
+                      placeholder={language === 'fr' 
+                        ? "Décrivez les détails spécifiques comme les tatouages, bijoux ou exigences de pose..."
+                        : "Describe specific details like tattoos, jewelry, or specific pose requirements..."
+                      } 
                       className="min-h-[150px] resize-none"
                       {...form.register("description")}
                     />
@@ -197,17 +214,17 @@ export default function CustomRequest() {
               {step === 2 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <div className="space-y-4">
-                    <h3 className="text-xl font-bold">Your Information</h3>
+                    <h3 className="text-xl font-bold">{language === 'fr' ? 'Vos Informations' : 'Your Information'}</h3>
                     <div className="grid gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Full Name</Label>
+                        <Label htmlFor="name">{language === 'fr' ? 'Nom Complet' : 'Full Name'}</Label>
                         <Input id="name" {...form.register("customerName")} placeholder="Jane Doe" />
                         {form.formState.errors.customerName && (
                           <span className="text-sm text-destructive">{form.formState.errors.customerName.message}</span>
                         )}
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email Address</Label>
+                        <Label htmlFor="email">{language === 'fr' ? 'Adresse Email' : 'Email Address'}</Label>
                         <Input id="email" type="email" {...form.register("customerEmail")} placeholder="jane@example.com" />
                         {form.formState.errors.customerEmail && (
                           <span className="text-sm text-destructive">{form.formState.errors.customerEmail.message}</span>
@@ -218,11 +235,14 @@ export default function CustomRequest() {
 
                   <div className="bg-secondary/10 p-4 rounded-xl space-y-2 border border-secondary/20">
                     <div className="flex justify-between font-medium">
-                      <span>Custom Commission Base Price</span>
+                      <span>{language === 'fr' ? 'Prix de Base Sur Mesure' : 'Custom Commission Base Price'}</span>
                       <span>$129.00</span>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      *Final price may vary based on complexity. We will contact you if additional costs apply.
+                      {language === 'fr' 
+                        ? "*Le prix final peut varier selon la complexité."
+                        : "*Final price may vary based on complexity."
+                      }
                     </p>
                   </div>
                 </motion.div>
@@ -232,26 +252,26 @@ export default function CustomRequest() {
               <div className="flex justify-between pt-4 border-t">
                 {step === 1 ? (
                   <Button type="button" variant="ghost" onClick={() => window.history.back()}>
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                    <ArrowLeft className="w-4 h-4 mr-2" /> {language === 'fr' ? 'Retour' : 'Back'}
                   </Button>
                 ) : (
                   <Button type="button" variant="ghost" onClick={() => setStep(1)}>
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                    <ArrowLeft className="w-4 h-4 mr-2" /> {language === 'fr' ? 'Retour' : 'Back'}
                   </Button>
                 )}
 
                 {step === 1 ? (
                   <Button type="button" onClick={nextStep} className="px-8">
-                    Next Step <ArrowRight className="w-4 h-4 ml-2" />
+                    {language === 'fr' ? 'Suivant' : 'Next Step'} <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 ) : (
                   <Button type="submit" className="px-8 bg-secondary hover:bg-secondary/90 text-white" disabled={createOrder.isPending}>
                     {createOrder.isPending ? (
                       <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending...
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" /> {language === 'fr' ? 'Envoi...' : 'Sending...'}
                       </>
                     ) : (
-                      "Submit Request"
+                      language === 'fr' ? 'Soumettre' : 'Submit Request'
                     )}
                   </Button>
                 )}

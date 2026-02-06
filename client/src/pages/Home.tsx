@@ -2,8 +2,11 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Wand2, Camera, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 
 export default function Home() {
+  const { t } = useI18n();
+
   return (
     <div className="min-h-[calc(100vh-64px)] w-full overflow-x-hidden bg-gradient-to-b from-background to-secondary/10">
       {/* Hero Section */}
@@ -16,17 +19,16 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent-foreground font-medium mb-6">
               <Star className="w-4 h-4 fill-accent-foreground" />
-              <span>Touché Artistique Mariage - Votre souvenir éternel.</span>
+              <span>{t('home.hero.tag')}</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold font-display leading-[1.1] mb-6">
-              Capturez Votre Amour en <br />
+              {t('home.hero.title')} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">
-                Touché Artistique
+                {t('home.hero.subtitle')}
               </span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Créez des figurines 3D personnalisées pour votre gâteau de mariage ou comme souvenir précieux. 
-              Choisissez nos styles classiques ou envoyez vos photos pour une création 1-sur-1.
+              {t('home.hero.desc')}
             </p>
           </motion.div>
 
@@ -45,13 +47,13 @@ export default function Home() {
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Wand2 className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Le Studio de Création</h3>
+                <h3 className="text-2xl font-bold mb-3">{t('home.card.studio.title')}</h3>
                 <p className="text-muted-foreground mb-8 flex-grow">
-                  Configurez vos personnages : coiffures, tenues de mariage et poses romantiques.
+                  {t('home.card.studio.desc')}
                 </p>
                 <Link href="/configurator">
                   <Button size="lg" className="w-full text-lg rounded-xl h-14 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-                    Créer Mon Topper <ArrowRight className="w-5 h-5 ml-2" />
+                    {t('home.card.studio.button')} <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
               </div>
@@ -70,13 +72,13 @@ export default function Home() {
                 <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Camera className="w-8 h-8 text-secondary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Réplique Photo</h3>
+                <h3 className="text-2xl font-bold mb-3">{t('home.card.custom.title')}</h3>
                 <p className="text-muted-foreground mb-8 flex-grow">
-                  Envoyez les photos de vos essayages. Nos artistes sculptent une pièce unique de votre grand jour.
+                  {t('home.card.custom.desc')}
                 </p>
                 <Link href="/custom">
                   <Button size="lg" variant="outline" className="w-full text-lg rounded-xl h-14 border-accent text-accent hover:bg-accent hover:text-white shadow-lg shadow-accent/10">
-                    Envoyer Mes Photos <ArrowRight className="w-5 h-5 ml-2" />
+                    {t('home.card.custom.button')} <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
               </div>

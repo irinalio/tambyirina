@@ -1,14 +1,17 @@
 import { Link, useLocation } from "wouter";
-import { Sparkles, Box, User } from "lucide-react";
+import { Sparkles, Box, User, Languages } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
+import { Button } from "@/components/ui/button";
 
 export function Navigation() {
   const [location] = useLocation();
+  const { language, setLanguage, t } = useI18n();
 
   const navItems = [
-    { href: "/", label: "Home", icon: Sparkles },
-    { href: "/configurator", label: "Studio", icon: Box },
-    { href: "/custom", label: "Custom", icon: User },
+    { href: "/", label: t('nav.home'), icon: Sparkles },
+    { href: "/configurator", label: t('nav.studio'), icon: Box },
+    { href: "/custom", label: t('nav.custom'), icon: User },
   ];
 
   return (
@@ -23,26 +26,38 @@ export function Navigation() {
           </span>
         </Link>
 
-        <nav className="flex items-center gap-1 sm:gap-2">
-          {navItems.map((item) => {
-            const isActive = location === item.href;
-            return (
-              <Link key={item.href} href={item.href}>
-                <div
-                  className={cn(
-                    "flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 cursor-pointer text-sm font-medium",
-                    isActive
-                      ? "bg-primary text-white shadow-md shadow-primary/25"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}
-                >
-                  <item.icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{item.label}</span>
-                </div>
-              </Link>
-            );
-          })}
-        </nav>
+        <div className="flex items-center gap-4">
+          <nav className="flex items-center gap-1 sm:gap-2">
+            {navItems.map((item) => {
+              const isActive = location === item.href;
+              return (
+                <Link key={item.href} href={item.href}>
+                  <div
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 cursor-pointer text-sm font-medium",
+                      isActive
+                        ? "bg-primary text-white shadow-md shadow-primary/25"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span className="hidden sm:inline">{item.label}</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </nav>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+            className="flex items-center gap-2 rounded-full"
+          >
+            <Languages className="w-4 h-4" />
+            <span className="uppercase text-xs font-bold">{language}</span>
+          </Button>
+        </div>
       </div>
     </header>
   );
