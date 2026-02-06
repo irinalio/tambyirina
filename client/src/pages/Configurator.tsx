@@ -37,33 +37,33 @@ const HAIR_COLORS = [
 ];
 
 const OUTFITS = [
-  { id: "casual", label: "T-Shirt & Jeans" },
-  { id: "suit", label: "Business Suit" },
-  { id: "dress", label: "Summer Dress" },
-  { id: "sport", label: "Gym Wear" },
-  { id: "superhero", label: "Hero Suit" },
+  { id: "wedding_dress", label: "Robe de Mariée" },
+  { id: "tuxedo", label: "Smoking / Tuxedo" },
+  { id: "suit", label: "Costume Classique" },
+  { id: "boho", label: "Style Bohème" },
+  { id: "traditional", label: "Tenue Traditionnelle" },
 ];
 
 const OUTFIT_COLORS = [
-  { value: "blue", label: "Blue", hex: "#3b82f6" },
-  { value: "green", label: "Green", hex: "#22c55e" },
-  { value: "red", label: "Red", hex: "#ef4444" },
-  { value: "purple", label: "Purple", hex: "#a855f7" },
-  { value: "black", label: "Black", hex: "#1f2937" },
+  { value: "white", label: "Blanc Cassé", hex: "#fcfcfc" },
+  { value: "ivory", label: "Ivoire", hex: "#fffff0" },
+  { value: "black", label: "Noir", hex: "#1f2937" },
+  { value: "navy", label: "Bleu Marine", hex: "#1e3a8a" },
+  { value: "grey", label: "Gris Anthracite", hex: "#374151" },
 ];
 
 const SKINS = [
-  { value: "light", label: "Light", hex: "#fde4d5" },
-  { value: "medium", label: "Medium", hex: "#dcb698" },
-  { value: "tan", label: "Tan", hex: "#ae8b6d" },
-  { value: "dark", label: "Dark", hex: "#6d4c38" },
+  { value: "light", label: "Clair", hex: "#fde4d5" },
+  { value: "medium", label: "Médium", hex: "#dcb698" },
+  { value: "tan", label: "Halé", hex: "#ae8b6d" },
+  { value: "dark", label: "Foncé", hex: "#6d4c38" },
 ];
 
 const POSES = [
-  { id: "standing", label: "Standing" },
-  { id: "waving", label: "Waving" },
-  { id: "hero", label: "Hero Pose" },
-  { id: "sitting", label: "Sitting" },
+  { id: "holding_hands", label: "Main dans la Main" },
+  { id: "kissing", label: "Le Baiser" },
+  { id: "dancing", label: "Première Danse" },
+  { id: "looking_forward", label: "Regard vers l'Avenir" },
 ];
 
 const checkoutSchema = z.object({
@@ -85,9 +85,9 @@ export default function Configurator() {
     hairStyle: "bob",
     hairColor: "brown",
     skinColor: "light",
-    outfitStyle: "casual",
-    outfitColor: "blue",
-    pose: "standing",
+    outfitStyle: "wedding_dress",
+    outfitColor: "white",
+    pose: "holding_hands",
   });
   
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -128,8 +128,8 @@ export default function Configurator() {
       {/* LEFT: Controls */}
       <div className="w-full lg:w-1/3 flex flex-col border-r bg-white/50 backdrop-blur-sm z-10 h-full overflow-hidden">
         <div className="p-6 border-b bg-white/80">
-          <h2 className="text-2xl font-bold font-display">Studio</h2>
-          <p className="text-sm text-muted-foreground">Customize every detail</p>
+          <h2 className="text-2xl font-bold font-display text-primary">Atelier Mariage</h2>
+          <p className="text-sm text-muted-foreground">Personnalisez votre moment magique</p>
         </div>
 
         <Tabs defaultValue="hair" className="flex-1 flex flex-col overflow-hidden">

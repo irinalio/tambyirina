@@ -15,11 +15,11 @@ export function Navigation() {
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group cursor-pointer">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-secondary flex items-center justify-center text-white font-display font-bold text-xl shadow-lg group-hover:rotate-12 transition-transform">
-            M
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-white font-display font-bold text-xl shadow-lg group-hover:rotate-12 transition-transform">
+            T
           </div>
           <span className="font-display font-bold text-xl text-foreground tracking-tight">
-            Mini<span className="text-primary">Me</span>
+            Touché<span className="text-primary">Artistique</span>
           </span>
         </Link>
 

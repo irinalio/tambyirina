@@ -16,17 +16,17 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent-foreground font-medium mb-6">
               <Star className="w-4 h-4 fill-accent-foreground" />
-              <span>Make it mini. Make it yours.</span>
+              <span>Votre mariage, votre souvenir éternel.</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold font-display leading-[1.1] mb-6">
-              Turn Yourself Into a <br />
+              Capturez Votre Amour en <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">
-                Masterpiece
+                Touché Artistique
               </span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Create adorable, custom 3D figurines. Choose from our standard styles or
-              upload your photo for a fully personalized handcrafted mini-you.
+              Créez des figurines 3D personnalisées pour votre gâteau de mariage ou comme souvenir précieux. 
+              Choisissez nos styles classiques ou envoyez vos photos pour une création 1-sur-1.
             </p>
           </motion.div>
 
@@ -45,13 +45,13 @@ export default function Home() {
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Wand2 className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Figurine Creator</h3>
+                <h3 className="text-2xl font-bold mb-3">Le Studio de Création</h3>
                 <p className="text-muted-foreground mb-8 flex-grow">
-                  Design your character using our 3D-style configurator. Pick hair, outfit, and pose.
+                  Configurez vos personnages : coiffures, tenues de mariage et poses romantiques.
                 </p>
                 <Link href="/configurator">
-                  <Button size="lg" className="w-full text-lg rounded-xl h-14 group-hover:bg-primary group-hover:text-primary-foreground shadow-lg shadow-primary/20">
-                    Start Creating <ArrowRight className="w-5 h-5 ml-2" />
+                  <Button size="lg" className="w-full text-lg rounded-xl h-14 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
+                    Créer Mon Topper <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
               </div>
@@ -70,13 +70,13 @@ export default function Home() {
                 <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Camera className="w-8 h-8 text-secondary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Photo to Figurine</h3>
+                <h3 className="text-2xl font-bold mb-3">Réplique Photo</h3>
                 <p className="text-muted-foreground mb-8 flex-grow">
-                  Upload photos of yourself or a loved one and our artists will sculpt a unique 1-of-1 figurine.
+                  Envoyez les photos de vos essayages. Nos artistes sculptent une pièce unique de votre grand jour.
                 </p>
                 <Link href="/custom">
-                  <Button size="lg" variant="outline" className="w-full text-lg rounded-xl h-14 hover:bg-secondary hover:text-white border-secondary text-secondary shadow-lg shadow-secondary/10">
-                    Upload Photos <ArrowRight className="w-5 h-5 ml-2" />
+                  <Button size="lg" variant="outline" className="w-full text-lg rounded-xl h-14 border-accent text-accent hover:bg-accent hover:text-white shadow-lg shadow-accent/10">
+                    Envoyer Mes Photos <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
               </div>

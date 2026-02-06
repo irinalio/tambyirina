@@ -102,9 +102,9 @@ export default function CustomRequest() {
         
         {/* Progress Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold font-display mb-2">Custom Commission</h1>
+          <h1 className="text-3xl font-bold font-display mb-2 text-primary">Création Sur Mesure</h1>
           <p className="text-muted-foreground mb-6">
-            Upload photos and our artists will sculpt a fully personalized figurine.
+            Envoyez-nous les photos de vos tenues et de vos visages pour une réplique artistique parfaite.
           </p>
           
           <div className="flex items-center gap-2 text-sm font-medium">
