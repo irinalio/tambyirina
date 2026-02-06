@@ -1,38 +1,59 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
 
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import {
+  orders,
+  standardItems,
+  customRequests,
+  type CreateStandardOrderRequest,
+  type CreateCustomOrderRequest,
+  type Order,
+  type StandardItem,
+  type CustomRequest
+} from "@shared/schema";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  createStandardOrder(data: CreateStandardOrderRequest): Promise<{ order: Order; details: StandardItem }>;
+  createCustomOrder(data: CreateCustomOrderRequest): Promise<{ order: Order; details: CustomRequest }>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+export class DatabaseStorage implements IStorage {
+  async createStandardOrder(data: CreateStandardOrderRequest): Promise<{ order: Order; details: StandardItem }> {
+    return await db.transaction(async (tx) => {
+      const [newOrder] = await tx.insert(orders).values({
+        customerName: data.customer.customerName,
+        customerEmail: data.customer.customerEmail,
+        totalPrice: data.customer.totalPrice,
+        type: 'standard',
+        status: 'pending'
+      }).returning();
 
-  constructor() {
-    this.users = new Map();
+      const [newDetails] = await tx.insert(standardItems).values({
+        orderId: newOrder.id,
+        ...data.details
+      }).returning();
+
+      return { order: newOrder, details: newDetails };
+    });
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
-  }
+  async createCustomOrder(data: CreateCustomOrderRequest): Promise<{ order: Order; details: CustomRequest }> {
+    return await db.transaction(async (tx) => {
+      const [newOrder] = await tx.insert(orders).values({
+        customerName: data.customer.customerName,
+        customerEmail: data.customer.customerEmail,
+        totalPrice: data.customer.totalPrice,
+        type: 'custom',
+        status: 'pending'
+      }).returning();
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
+      const [newDetails] = await tx.insert(customRequests).values({
+        orderId: newOrder.id,
+        ...data.details
+      }).returning();
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+      return { order: newOrder, details: newDetails };
+    });
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
