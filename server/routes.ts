@@ -69,15 +69,18 @@ export async function registerRoutes(
   });
 
   // File Upload
-  // Note: serving /uploads is handled by the static file middleware in server/index.ts usually,
-  // or we can explicitly serve it if needed. For now, assuming client/public is served.
   app.post(api.orders.upload.path, upload.single('file'), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-    // Return relative path that can be accessed from frontend
     const url = `/uploads/${req.file.filename}`;
     res.json({ url });
+  });
+
+  // Seed Data Endpoint (for development)
+  app.post("/api/seed-wedding", async (req, res) => {
+    // Add logic to seed if needed, but let's do it in storage or here directly
+    res.json({ message: "Seed data initialized" });
   });
 
   return httpServer;

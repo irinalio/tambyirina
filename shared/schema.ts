@@ -23,9 +23,9 @@ export const standardItems = pgTable("standard_items", {
   hairStyle: text("hair_style").notNull(),
   hairColor: text("hair_color").notNull(),
   skinColor: text("skin_color").notNull(),
-  outfitStyle: text("outfit_style").notNull(),
+  outfitStyle: text("outfit_style").notNull(), // Wedding Dress, Suit, Tuxedo
   outfitColor: text("outfit_color").notNull(),
-  pose: text("pose").notNull().default("standing"),
+  pose: text("pose").notNull().default("holding_hands"), // holding_hands, kissing, dancing
 });
 
 // Details for fully personalized figurines (from photos)
