@@ -86,3 +86,34 @@ export function useCreateCustomOrder() {
     },
   });
 }
+
+export function useUploadPhoto() {
+  const { toast } = useToast();
+
+  return useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append("photo", file);
+
+      const res = await fetch(api.orders.upload.path, {
+        method: api.orders.upload.method,
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Upload failed");
+      }
+
+      const data = await res.json();
+      return data.url as string;
+    },
+    onError: (error) => {
+      toast({
+        title: "Upload Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+}

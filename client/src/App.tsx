@@ -7,6 +7,7 @@ import { Navigation } from "@/components/Navigation";
 import Home from "@/pages/Home";
 import Configurator from "@/pages/Configurator";
 import CustomRequest from "@/pages/CustomRequest";
+import Collection from "@/pages/Collection";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -17,6 +18,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/configurator" component={Configurator} />
         <Route path="/custom" component={CustomRequest} />
+        <Route path="/collection" component={Collection} />
         <Route component={NotFound} />
       </Switch>
     </div>
