@@ -33,27 +33,46 @@ export default function Home() {
           </motion.div>
 
           {/* Cards */}
-          <div className="grid md:grid-cols-2 gap-8 mt-16 max-w-4xl mx-auto">
-            {/* Standard Configurator Card */}
+          <div className="grid md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto">
+            {/* Ready Made Card */}
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
               className="group relative bg-card rounded-3xl p-8 border hover:border-primary/50 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              
               <div className="relative z-10 flex flex-col items-center text-center h-full">
-                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Wand2 className="w-8 h-8 text-primary" />
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                  <Star className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">{t('home.card.studio.title')}</h3>
-                <p className="text-muted-foreground mb-8 flex-grow">
-                  {t('home.card.studio.desc')}
-                </p>
+                <h3 className="text-2xl font-bold mb-3">{t('home.card.ready.title')}</h3>
+                <p className="text-muted-foreground mb-8 flex-grow">{t('home.card.ready.desc')}</p>
+                <Link href="/collection">
+                  <Button size="lg" className="w-full text-lg rounded-xl h-14 bg-primary hover:bg-primary/90">
+                    {t('home.card.ready.button')} <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Semi-Standard Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="group relative bg-card rounded-3xl p-8 border hover:border-accent/50 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative z-10 flex flex-col items-center text-center h-full">
+                <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mb-6">
+                  <Wand2 className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3">{t('home.card.semi.title')}</h3>
+                <p className="text-muted-foreground mb-8 flex-grow">{t('home.card.semi.desc')}</p>
                 <Link href="/configurator">
-                  <Button size="lg" className="w-full text-lg rounded-xl h-14 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-                    {t('home.card.studio.button')} <ArrowRight className="w-5 h-5 ml-2" />
+                  <Button size="lg" variant="outline" className="w-full text-lg rounded-xl h-14 border-accent text-accent hover:bg-accent hover:text-white">
+                    {t('home.card.semi.button')} <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
               </div>
@@ -61,23 +80,20 @@ export default function Home() {
 
             {/* Custom Request Card */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
               className="group relative bg-card rounded-3xl p-8 border hover:border-secondary/50 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              
               <div className="relative z-10 flex flex-col items-center text-center h-full">
-                <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6">
                   <Camera className="w-8 h-8 text-secondary" />
                 </div>
                 <h3 className="text-2xl font-bold mb-3">{t('home.card.custom.title')}</h3>
-                <p className="text-muted-foreground mb-8 flex-grow">
-                  {t('home.card.custom.desc')}
-                </p>
+                <p className="text-muted-foreground mb-8 flex-grow">{t('home.card.custom.desc')}</p>
                 <Link href="/custom">
-                  <Button size="lg" variant="outline" className="w-full text-lg rounded-xl h-14 border-accent text-accent hover:bg-accent hover:text-white shadow-lg shadow-accent/10">
+                  <Button size="lg" variant="outline" className="w-full text-lg rounded-xl h-14 border-secondary text-secondary hover:bg-secondary hover:text-white">
                     {t('home.card.custom.button')} <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>

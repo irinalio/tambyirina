@@ -1,10 +1,12 @@
 
 import { z } from 'zod';
 import { 
-  createStandardOrderSchema, 
+  createReadyOrderSchema,
+  createSemiOrderSchema, 
   createCustomOrderSchema, 
   orders,
-  standardItems,
+  semiStandardItems,
+  readyMadeItems,
   customRequests
 } from './schema';
 
@@ -29,14 +31,26 @@ export const errorSchemas = {
 // ============================================
 export const api = {
   orders: {
-    createStandard: {
+    createReady: {
       method: 'POST' as const,
-      path: '/api/orders/standard',
-      input: createStandardOrderSchema,
+      path: '/api/orders/ready',
+      input: createReadyOrderSchema,
       responses: {
         201: z.object({
           order: z.custom<typeof orders.$inferSelect>(),
-          details: z.custom<typeof standardItems.$inferSelect>(),
+          details: z.custom<typeof readyMadeItems.$inferSelect>(),
+        }),
+        400: errorSchemas.validation,
+      },
+    },
+    createSemi: {
+      method: 'POST' as const,
+      path: '/api/orders/semi',
+      input: createSemiOrderSchema,
+      responses: {
+        201: z.object({
+          order: z.custom<typeof orders.$inferSelect>(),
+          details: z.custom<typeof semiStandardItems.$inferSelect>(),
         }),
         400: errorSchemas.validation,
       },

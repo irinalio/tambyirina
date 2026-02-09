@@ -34,11 +34,28 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
 
-  // Standard Order
-  app.post(api.orders.createStandard.path, async (req, res) => {
+  // Ready Order
+  app.post(api.orders.createReady.path, async (req, res) => {
     try {
-      const input = api.orders.createStandard.input.parse(req.body);
-      const result = await storage.createStandardOrder(input);
+      const input = api.orders.createReady.input.parse(req.body);
+      const result = await storage.createReadyOrder(input);
+      res.status(201).json(result);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join('.'),
+        });
+      }
+      throw err;
+    }
+  });
+
+  // Semi Order
+  app.post(api.orders.createSemi.path, async (req, res) => {
+    try {
+      const input = api.orders.createSemi.input.parse(req.body);
+      const result = await storage.createSemiOrder(input);
       res.status(201).json(result);
     } catch (err) {
       if (err instanceof z.ZodError) {

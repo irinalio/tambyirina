@@ -10,22 +10,28 @@ export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   customerName: text("customer_name").notNull(),
   customerEmail: text("customer_email").notNull(),
-  type: text("type").notNull(), // 'standard' | 'custom'
-  status: text("status").notNull().default("pending"), // pending, confirmed, shipping, delivered
-  totalPrice: integer("total_price").notNull(), // in cents
+  type: text("type").notNull(), // 'ready' | 'semi' | 'custom'
+  status: text("status").notNull().default("pending"),
+  totalPrice: integer("total_price").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Details for standard customized figurines
-export const standardItems = pgTable("standard_items", {
+// For Semi-Standard (Interactive) figurines
+export const semiStandardItems = pgTable("semi_standard_items", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").notNull().references(() => orders.id),
-  hairStyle: text("hair_style").notNull(),
-  hairColor: text("hair_color").notNull(),
+  pose: text("pose").notNull(), // holding_hands, hugging
   skinColor: text("skin_color").notNull(),
-  outfitStyle: text("outfit_style").notNull(), // Wedding Dress, Suit, Tuxedo
+  hairStyle: text("hair_style").notNull(),
   outfitColor: text("outfit_color").notNull(),
-  pose: text("pose").notNull().default("holding_hands"), // holding_hands, kissing, dancing
+  dressType: text("dress_type").notNull(),
+});
+
+// For Ready-made (Standard) figurines
+export const readyMadeItems = pgTable("ready_made_items", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").notNull().references(() => orders.id),
+  productId: text("product_id").notNull(),
 });
 
 // Details for fully personalized figurines (from photos)
@@ -39,19 +45,26 @@ export const customRequests = pgTable("custom_requests", {
 // === SCHEMAS ===
 
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true });
-export const insertStandardItemSchema = createInsertSchema(standardItems).omit({ id: true, orderId: true });
+export const insertSemiStandardItemSchema = createInsertSchema(semiStandardItems).omit({ id: true, orderId: true });
+export const insertReadyMadeItemSchema = createInsertSchema(readyMadeItems).omit({ id: true, orderId: true });
 export const insertCustomRequestSchema = createInsertSchema(customRequests).omit({ id: true, orderId: true });
 
 // === TYPES ===
 
 export type Order = typeof orders.$inferSelect;
-export type StandardItem = typeof standardItems.$inferSelect;
+export type SemiStandardItem = typeof semiStandardItems.$inferSelect;
+export type ReadyMadeItem = typeof readyMadeItems.$inferSelect;
 export type CustomRequest = typeof customRequests.$inferSelect;
 
 // Combined Request Types for API
-export const createStandardOrderSchema = z.object({
+export const createReadyOrderSchema = z.object({
   customer: insertOrderSchema.pick({ customerName: true, customerEmail: true, totalPrice: true }),
-  details: insertStandardItemSchema,
+  details: insertReadyMadeItemSchema,
+});
+
+export const createSemiOrderSchema = z.object({
+  customer: insertOrderSchema.pick({ customerName: true, customerEmail: true, totalPrice: true }),
+  details: insertSemiStandardItemSchema,
 });
 
 export const createCustomOrderSchema = z.object({
@@ -59,5 +72,6 @@ export const createCustomOrderSchema = z.object({
   details: insertCustomRequestSchema,
 });
 
-export type CreateStandardOrderRequest = z.infer<typeof createStandardOrderSchema>;
+export type CreateReadyOrderRequest = z.infer<typeof createReadyOrderSchema>;
+export type CreateSemiOrderRequest = z.infer<typeof createSemiOrderSchema>;
 export type CreateCustomOrderRequest = z.infer<typeof createCustomOrderSchema>;
