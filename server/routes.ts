@@ -1,4 +1,3 @@
-
 import type { Express } from "express";
 import type { Server } from "http";
 import { storage } from "./storage";
@@ -7,7 +6,6 @@ import { z } from "zod";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import express from "express";
 
 // Ensure uploads directory exists
 const uploadDir = path.join(process.cwd(), "client", "public", "uploads");
@@ -22,16 +20,16 @@ const upload = multer({
     filename: (req, file, cb) => {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
       cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
+    },
   }),
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
-  }
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
 });
 
 export async function registerRoutes(
   httpServer: Server,
-  app: Express
+  app: Express,
 ): Promise<Server> {
 
   // Ready Order
@@ -94,10 +92,31 @@ export async function registerRoutes(
     res.json({ url });
   });
 
-  // Seed Data Endpoint (for development)
-  app.post("/api/seed-wedding", async (req, res) => {
-    // Add logic to seed if needed, but let's do it in storage or here directly
-    res.json({ message: "Seed data initialized" });
+  // Get Reviews
+  app.get(api.reviews.list.path, async (_req, res) => {
+    try {
+      const result = await storage.getApprovedReviews();
+      res.json(result);
+    } catch (err) {
+      throw err;
+    }
+  });
+
+  // Create Review
+  app.post(api.reviews.create.path, async (req, res) => {
+    try {
+      const input = api.reviews.create.input.parse(req.body);
+      const result = await storage.createReview(input);
+      res.status(201).json(result);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({
+          message: err.errors[0].message,
+          field: err.errors[0].path.join('.'),
+        });
+      }
+      throw err;
+    }
   });
 
   return httpServer;

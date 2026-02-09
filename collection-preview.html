@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Preview — Standard Figurine Collection</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #e6a817;
+    --primary-fg: #fff;
+    --accent: #e07caa;
+    --accent-fg: #fff;
+    --bg: #fdfcfa;
+    --card: #ffffff;
+    --muted: #f5f3ef;
+    --muted-fg: #8a8278;
+    --border: #ebe7e0;
+    --fg: #2c2620;
+    --green: #16a34a;
+    --radius: 1rem;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--fg); }
+  .font-display { font-family:'Playfair Display',serif; }
+
+  /* NAV */
+  .nav { position:sticky; top:0; z-index:50; backdrop-filter:blur(16px); background:rgba(253,252,250,0.85); border-bottom:1px solid var(--border); }
+  .nav-inner { max-width:72rem; margin:0 auto; padding:0 1rem; height:4rem; display:flex; align-items:center; justify-content:space-between; }
+  .logo { display:flex; align-items:center; gap:0.5rem; text-decoration:none; color:var(--fg); }
+  .logo-icon { width:2rem; height:2rem; border-radius:0.5rem; background:linear-gradient(135deg,var(--primary),var(--accent)); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:1.1rem; }
+  .logo-text { font-weight:700; font-size:0.95rem; }
+  .logo-sub { font-size:0.6rem; color:var(--primary); text-transform:uppercase; letter-spacing:0.15em; font-weight:600; }
+  .nav-links { display:flex; gap:0.25rem; }
+  .nav-link { padding:0.5rem 0.75rem; border-radius:2rem; font-size:0.85rem; font-weight:500; color:var(--muted-fg); text-decoration:none; transition:all 0.2s; }
+  .nav-link:hover { background:var(--muted); color:var(--fg); }
+  .nav-link.active { background:var(--primary); color:var(--primary-fg); }
+
+  /* HERO */
+  .hero { background:linear-gradient(to bottom, #f5f0e8, var(--bg)); text-align:center; padding:4rem 1rem 3rem; }
+  .hero-badge { display:inline-flex; align-items:center; gap:0.5rem; padding:0.5rem 1rem; border-radius:2rem; background:rgba(230,168,23,0.1); font-size:0.8rem; font-weight:600; color:var(--primary); margin-bottom:1rem; }
+  .hero h1 { font-size:clamp(2rem,5vw,3.2rem); font-weight:700; line-height:1.2; margin-bottom:1rem; }
+  .hero h1 span { color:var(--primary); }
+  .hero p { font-size:1.05rem; color:var(--muted-fg); max-width:38rem; margin:0 auto 1rem; line-height:1.7; }
+  .hero-checks { display:flex; justify-content:center; gap:1.5rem; font-size:0.85rem; color:var(--muted-fg); flex-wrap:wrap; }
+  .hero-checks span { display:flex; align-items:center; gap:0.35rem; }
+  .check { color:var(--primary); font-weight:700; }
+
+  /* GRID */
+  .grid-section { max-width:80rem; margin:0 auto; padding:0 1rem 3rem; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.5rem; }
+  .card { background:var(--card); border-radius:var(--radius); overflow:hidden; border:1px solid var(--border); box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:all 0.3s; position:relative; }
+  .card:hover { box-shadow:0 8px 30px rgba(0,0,0,0.08); border-color:rgba(230,168,23,0.3); transform:translateY(-2px); }
+  .card-img { aspect-ratio:1; background:linear-gradient(to bottom,#faf8f4,#f0ece4); padding:1rem; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .card-img img { width:100%; height:100%; object-fit:contain; transition:transform 0.5s; }
+  .card:hover .card-img img { transform:scale(1.05); }
+  .badge { position:absolute; top:0.75rem; left:0.75rem; padding:0.25rem 0.65rem; border-radius:2rem; font-size:0.65rem; font-weight:700; display:flex; align-items:center; gap:0.25rem; }
+  .badge-bestseller, .badge-premium { background:var(--primary); color:#fff; }
+  .badge-popular { background:#fff; color:var(--fg); box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+  .badge-new { background:var(--accent); color:#fff; }
+  .card-info { padding:1rem; }
+  .card-info h3 { font-weight:700; font-size:0.95rem; margin-bottom:0.3rem; }
+  .card-info .desc { font-size:0.75rem; color:var(--muted-fg); line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin-bottom:0.5rem; }
+  .card-footer { display:flex; align-items:center; justify-content:space-between; }
+  .price { font-size:1.1rem; font-weight:700; color:var(--primary); }
+  .btn { display:inline-flex; align-items:center; gap:0.35rem; padding:0.5rem 1rem; border-radius:0.75rem; font-size:0.8rem; font-weight:600; border:none; cursor:pointer; transition:all 0.2s; text-decoration:none; }
+  .btn-primary { background:var(--primary); color:#fff; }
+  .btn-primary:hover { filter:brightness(1.08); }
+  .btn-sm { padding:0.4rem 0.85rem; font-size:0.75rem; }
+  .btn-outline { background:transparent; border:1px solid var(--border); color:var(--fg); }
+  .btn-outline:hover { border-color:var(--primary); color:var(--primary); }
+
+  /* Hover overlay */
+  .buy-overlay { position:absolute; bottom:0.75rem; left:0.75rem; right:0.75rem; opacity:0; transform:translateY(8px); transition:all 0.25s; }
+  .card:hover .buy-overlay { opacity:1; transform:translateY(0); }
+  .buy-overlay .btn { width:100%; justify-content:center; padding:0.65rem; font-size:0.85rem; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+
+  /* UPSELL */
+  .upsell { max-width:64rem; margin:0 auto; padding:0 1rem 5rem; }
+  .upsell-box { position:relative; overflow:hidden; border-radius:2rem; background:linear-gradient(135deg,rgba(224,124,170,0.05),rgba(230,168,23,0.05),rgba(245,240,232,0.4)); border:1px solid rgba(224,124,170,0.2); padding:3rem; text-align:center; }
+  .upsell-box .circle1 { position:absolute; top:-3rem; right:-3rem; width:10rem; height:10rem; border-radius:50%; background:rgba(230,168,23,0.05); }
+  .upsell-box .circle2 { position:absolute; bottom:-3rem; left:-3rem; width:8rem; height:8rem; border-radius:50%; background:rgba(224,124,170,0.08); }
+  .upsell-badge { display:inline-flex; align-items:center; gap:0.4rem; padding:0.5rem 1rem; border-radius:2rem; background:rgba(224,124,170,0.1); color:var(--accent); font-size:0.85rem; font-weight:600; margin-bottom:1.5rem; }
+  .upsell-box h2 { font-size:clamp(1.6rem,4vw,2.4rem); font-weight:700; margin-bottom:0.75rem; }
+  .upsell-box > .desc { color:var(--muted-fg); max-width:38rem; margin:0 auto 2.5rem; line-height:1.7; font-size:0.95rem; }
+  .upsell-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; max-width:48rem; margin:0 auto; position:relative; z-index:1; }
+  .upsell-card { background:rgba(255,255,255,0.8); backdrop-filter:blur(8px); border-radius:1rem; padding:1.5rem; border:1px solid var(--border); text-align:left; transition:all 0.3s; text-decoration:none; color:var(--fg); display:block; }
+  .upsell-card:hover { box-shadow:0 8px 24px rgba(0,0,0,0.06); transform:translateY(-2px); }
+  .upsell-card.semi:hover { border-color:rgba(230,168,23,0.4); }
+  .upsell-card.custom:hover { border-color:rgba(224,124,170,0.4); }
+  .upsell-icon { width:3rem; height:3rem; border-radius:0.75rem; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; font-size:1.4rem; }
+  .upsell-icon.semi { background:rgba(230,168,23,0.1); }
+  .upsell-icon.custom { background:rgba(224,124,170,0.1); }
+  .upsell-card h3 { font-weight:700; font-size:1.05rem; margin-bottom:0.4rem; }
+  .upsell-card .desc { font-size:0.85rem; color:var(--muted-fg); line-height:1.6; margin-bottom:1rem; }
+  .upsell-footer { display:flex; align-items:center; justify-content:space-between; }
+  .upsell-price { font-size:1.05rem; font-weight:700; }
+  .upsell-price.semi { color:var(--primary); }
+  .upsell-price.custom { color:var(--accent); }
+  .upsell-link { font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:0.25rem; transition:gap 0.2s; }
+  .upsell-link.semi { color:var(--primary); }
+  .upsell-link.custom { color:var(--accent); }
+  .upsell-card:hover .upsell-link { gap:0.5rem; }
+
+  @media (max-width:640px) {
+    .hero-checks { gap:0.75rem; font-size:0.78rem; }
+    .nav-links { display:none; }
+    .upsell-box { padding:2rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon font-display">T</div>
+      <div>
+        <div class="logo-text">Touche Artistique</div>
+        <div class="logo-sub">Mariage</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#" class="nav-link">Home</a>
+      <a href="#" class="nav-link active">Collection</a>
+      <a href="#" class="nav-link">Studio</a>
+      <a href="#" class="nav-link">Custom</a>
+      <a href="#" class="nav-link">Reviews</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">&#128722; Standard Collection</div>
+  <h1 class="font-display">Choose your <span>perfect duo</span></h1>
+  <p>Our ready-made figurines are handcrafted with love. Each model is unique — choose the one that looks most like you.</p>
+  <div class="hero-checks">
+    <span><span class="check">&#10003;</span> Free shipping</span>
+    <span><span class="check">&#10003;</span> Handcrafted</span>
+    <span><span class="check">&#10003;</span> Gift wrapped</span>
+  </div>
+</section>
+
+<!-- PRODUCT GRID -->
+<section class="grid-section">
+  <div class="grid" id="product-grid"></div>
+</section>
+
+<!-- UPSELL -->
+<section class="upsell">
+  <div class="upsell-box">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="upsell-badge">&#10024; Want a unique look?</div>
+    <h2 class="font-display">Customize your figurine</h2>
+    <p class="desc">Our standard models don't quite match you? No worries — we offer two customization options to create the perfect figurine.</p>
+    <div class="upsell-grid">
+      <a href="#" class="upsell-card semi">
+        <div class="upsell-icon semi">&#127912;</div>
+        <h3 class="font-display">Semi-Customizable</h3>
+        <p class="desc">Choose hairstyle, skin color, and outfit in our interactive configurator.</p>
+        <div class="upsell-footer">
+          <span class="upsell-price semi">&euro;59.99</span>
+          <span class="upsell-link semi">Configure &rarr;</span>
+        </div>
+      </a>
+      <a href="#" class="upsell-card custom">
+        <div class="upsell-icon custom">&#128247;</div>
+        <h3 class="font-display">Fully Customizable</h3>
+        <p class="desc">Send your photos and we'll handcraft a one-of-a-kind artistic replica just for you.</p>
+        <div class="upsell-footer">
+          <span class="upsell-price custom">From &euro;99.99</span>
+          <span class="upsell-link custom">Create &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+const products = [
+  { id:"elegant-classic", name:"The Elegant Classic", desc:"Dark-haired bride in white gown with her dashing groom in a charcoal suit.", image:"client/public/uploads/Standard figurine_Image_l9yxekl9yxekl9yx.png", badge:"BESTSELLER", badgeClass:"bestseller" },
+  { id:"silver-charm", name:"Silver Charm", desc:"Distinguished silver-haired groom in steel blue with his graceful brunette bride.", image:"client/public/uploads/Standard figurine_Image_mhjv1xmhjv1xmhjv.png" },
+  { id:"bohemian-duo", name:"The Bohemian Duo", desc:"Free-spirited couple with flowing locks — groom in blue suit, blonde bride with bouquet.", image:"client/public/uploads/Standard figurine_Image_zukt6zukt6zukt6z.png" },
+  { id:"modern-romance", name:"Modern Romance", desc:"Wavy-haired groom in blue suit paired with a golden-haired bride in a sleek white gown.", image:"client/public/uploads/Standard figurine_Image_5fvtyf5fvtyf5fvt.png" },
+  { id:"sun-kissed", name:"Sun-Kissed Love", desc:"Warm-toned couple with curly brown hair groom and his beautiful dark-haired bride.", image:"client/public/uploads/Standard figurine_Image_2q9w322q9w322q9w.png", badge:"POPULAR", badgeClass:"popular" },
+  { id:"golden-contrast", name:"Golden Contrast", desc:"Blonde groom in a crisp blue suit with his stunning curly-haired bride.", image:"client/public/uploads/Standard figurine_Image_9k34y19k34y19k34.png" },
+  { id:"blonde-bliss", name:"Blonde Bliss", desc:"A radiant all-blonde couple — groom in blue suit and bride in flowing white gown.", image:"client/public/uploads/Standard figurine_Image_kxooaykxooaykxoo.png" },
+  { id:"curly-elegance", name:"Curly Elegance", desc:"Short-haired groom in blue suit with his beautiful bride sporting golden curls.", image:"client/public/uploads/Standard figurine_Image_fsehdkfsehdkfseh.png" },
+  { id:"classic-updo", name:"Classic Updo", desc:"Clean-cut groom in blue with his blonde bride wearing an elegant updo.", image:"client/public/uploads/Standard figurine_Image_iwb318iwb318iwb3.png" },
+  { id:"midnight-garden", name:"Midnight Garden", desc:"Brown-haired groom in blue suit alongside his dark-haired bride with bouquet.", image:"client/public/uploads/Standard figurine_Image_uumq98uumq98uumq.png" },
+  { id:"sweet-curls", name:"Sweet Curls", desc:"Dapper short-haired groom paired with his curly-haired blonde bride.", image:"client/public/uploads/Standard figurine_Image_qoivuwqoivuwqoiv.png" },
+  { id:"island-love", name:"Island Love", desc:"Blonde groom in blue suit with his gorgeous dark-skinned bride and curly hair.", image:"client/public/uploads/Standard figurine_Image_xputwhxputwhxput.png", badge:"NEW", badgeClass:"new" },
+  { id:"timeless-grace", name:"Timeless Grace", desc:"Smart-looking groom in blue suit with his bride wearing a beautiful updo.", image:"client/public/uploads/Standard figurine_Image_tfjxp9tfjxp9tfjx.png" },
+  { id:"noir-glamour", name:"Noir Glamour", desc:"Sophisticated groom in a black tuxedo with his bride in a stunning lace gown.", image:"client/public/uploads/Standard figurine_Image_l6vxa5l6vxa5l6vx.png", badge:"PREMIUM", badgeClass:"premium" },
+];
+
+const grid = document.getElementById('product-grid');
+products.forEach(p => {
+  const badgeHtml = p.badge ? `<div class="badge badge-${p.badgeClass}">${p.badge === 'POPULAR' ? '&#10084;' : p.badge === 'NEW' ? '&#10024;' : '&#9733;'} ${p.badge}</div>` : '';
+  grid.innerHTML += `
+    <div class="card">
+      <div class="card-img">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+        ${badgeHtml}
+        <div class="buy-overlay">
+          <button class="btn btn-primary" onclick="alert('Order dialog for: ${p.name}\\nPrice: €39.99')">&#128722; Buy Now — €39.99</button>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3 class="font-display">${p.name}</h3>
+        <p class="desc">${p.desc}</p>
+        <div class="card-footer">
+          <span class="price">€39.99</span>
+          <button class="btn btn-primary btn-sm" onclick="alert('Order dialog for: ${p.name}\\nPrice: €39.99')">&#128722; Buy</button>
+        </div>
+      </div>
+    </div>`;
+});
+</script>
+</body>
+</html>

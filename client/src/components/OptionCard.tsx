@@ -1,54 +1,31 @@
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { LucideIcon } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface OptionCardProps {
   id: string;
-  label: string;
-  icon?: LucideIcon;
+  label: { en: string; fr: string } | string;
   selected: boolean;
   onClick: () => void;
-  className?: string;
 }
 
-export function OptionCard({ id, label, icon: Icon, selected, onClick, className }: OptionCardProps) {
+export function OptionCard({ id, label, selected, onClick }: OptionCardProps) {
+  const { language } = useI18n();
+  const displayLabel = typeof label === "string" ? label : label[language];
+
   return (
     <motion.button
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className={cn(
-        "relative flex flex-col items-center justify-center gap-3 p-4 rounded-xl border-2 transition-all duration-200 w-full h-full min-h-[100px]",
+      className={`relative px-4 py-3 rounded-lg border-2 text-sm font-medium transition-all ${
         selected
-          ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
-          : "border-border bg-card hover:border-primary/50 hover:bg-accent/5",
-        className
-      )}
+          ? "border-primary bg-primary/5 text-primary shadow-sm"
+          : "border-border bg-card text-foreground hover:border-primary/30"
+      }`}
     >
-      {Icon && (
-        <Icon
-          className={cn(
-            "w-8 h-8 transition-colors",
-            selected ? "text-primary" : "text-muted-foreground"
-          )}
-        />
-      )}
-      <span
-        className={cn(
-          "font-medium text-sm text-center",
-          selected ? "text-primary" : "text-muted-foreground"
-        )}
-      >
-        {label}
-      </span>
-      {selected && (
-        <motion.div
-          layoutId="selected-indicator"
-          className="absolute inset-0 border-2 border-primary rounded-xl pointer-events-none"
-          initial={false}
-          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-        />
-      )}
+      {displayLabel}
     </motion.button>
   );
 }
+
+export default OptionCard;

@@ -1,13 +1,14 @@
-
 import { z } from 'zod';
-import { 
+import {
   createReadyOrderSchema,
-  createSemiOrderSchema, 
-  createCustomOrderSchema, 
+  createSemiOrderSchema,
+  createCustomOrderSchema,
+  createReviewSchema,
   orders,
   semiStandardItems,
   readyMadeItems,
-  customRequests
+  customRequests,
+  reviews,
 } from './schema';
 
 // ============================================
@@ -70,14 +71,31 @@ export const api = {
     upload: {
       method: 'POST' as const,
       path: '/api/upload',
-      // input is multipart/form-data, handled manually in handler
       responses: {
         200: z.object({
           url: z.string(),
         }),
         400: errorSchemas.validation,
       },
-    }
+    },
+  },
+  reviews: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/reviews',
+      responses: {
+        200: z.array(z.custom<typeof reviews.$inferSelect>()),
+      },
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/reviews',
+      input: createReviewSchema,
+      responses: {
+        201: z.custom<typeof reviews.$inferSelect>(),
+        400: errorSchemas.validation,
+      },
+    },
   },
 };
 
