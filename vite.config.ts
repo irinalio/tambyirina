@@ -34,7 +34,22 @@ export default defineConfig({
   server: {
     fs: {
       strict: true,
+
       deny: ["**/.*"],
     },
   },
 });
+// vite.config.js
+export default {
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor'; // Puts all external libraries into a vendor.js file
+          }
+        },
+      },
+    },
+  },
+}
